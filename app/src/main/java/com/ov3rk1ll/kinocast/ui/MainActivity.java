@@ -31,8 +31,8 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
 
-import com.google.android.libraries.cast.companionlibrary.cast.BaseCastManager;
-import com.google.android.libraries.cast.companionlibrary.cast.VideoCastManager;
+//import com.google.android.libraries.cast.companionlibrary.cast.BaseCastManager;
+//import com.google.android.libraries.cast.companionlibrary.cast.VideoCastManager;
 import com.kobakei.ratethisapp.RateThisApp;
 import com.ov3rk1ll.kinocast.BuildConfig;
 import com.ov3rk1ll.kinocast.R;
@@ -77,8 +77,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(BuildConfig.GMS_CHECK) BaseCastManager.checkGooglePlayServices(this);
-        Utils.initializeCastManager(this);
+       // if(BuildConfig.GMS_CHECK) BaseCastManager.checkGooglePlayServices(this);
+   //     Utils.initializeCastManager(this);
         setContentView(R.layout.activity_main);
 
         activity = this;
@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toolbar.addView(mProgressBar, layoutParams);
         setSupportActionBar(toolbar);
 
-        VideoCastManager.getInstance().reconnectSessionIfPossible();
+        //VideoCastManager.getInstance().reconnectSessionIfPossible();
 
 
         // listen for navigation events
@@ -195,7 +195,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onResume() {
         super.onResume();
-        VideoCastManager.getInstance().incrementUiCounter();
+        //VideoCastManager.getInstance().incrementUiCounter();
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
         // remove active state from settings
         if(mNavItemLast != -1) {
@@ -209,7 +209,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onPause() {
         super.onPause();
-        VideoCastManager.getInstance().decrementUiCounter();
+        //VideoCastManager.getInstance().decrementUiCounter();
     }
 
     @Override
@@ -220,11 +220,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         outState.putInt(NAV_ITEM_ID, mNavItemId);
     }
 
+    /*
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         return VideoCastManager.getInstance().onDispatchVolumeKeyEvent(event, 0.05) || super.dispatchKeyEvent(event);
     }
-
+*/
     public void restoreActionBar() {
         ActionBar actionBar = getSupportActionBar();
         if(actionBar != null) {
@@ -239,7 +240,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onCreateOptionsMenu(final Menu menu) {
         if (!mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             getMenuInflater().inflate(R.menu.main, menu);
-            VideoCastManager.getInstance().addMediaRouterButton(menu, R.id.media_route_menu_item);
+            //VideoCastManager.getInstance().addMediaRouterButton(menu, R.id.media_route_menu_item);
 
             searchMenuItem = menu.findItem(R.id.action_search);
 

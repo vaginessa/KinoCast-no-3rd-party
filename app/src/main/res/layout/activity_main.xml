@@ -33,16 +33,16 @@
                 <FrameLayout
                     android:id="@+id/container"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_above="@+id/miniController" />
+                    android:layout_height="match_parent" />
+                    <!--android:layout_above="@+id/miniController" /-->
 
-                <com.google.android.libraries.cast.companionlibrary.widgets.MiniController
+                <!--com.google.android.libraries.cast.companionlibrary.widgets.MiniController
                     android:id="@+id/miniController"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     app:auto_setup="true"
-                    android:visibility="gone" />
+                    android:visibility="gone" /-->
             </RelativeLayout>
         </LinearLayout>
 

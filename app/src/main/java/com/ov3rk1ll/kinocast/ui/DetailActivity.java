@@ -45,6 +45,7 @@ import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+/*
 import com.flurry.android.FlurryAgent;
 import com.flurry.android.ads.FlurryAdBanner;
 import com.flurry.android.ads.FlurryAdBannerListener;
@@ -54,6 +55,7 @@ import com.google.android.gms.cast.MediaMetadata;
 import com.google.android.gms.common.images.WebImage;
 import com.google.android.libraries.cast.companionlibrary.cast.BaseCastManager;
 import com.google.android.libraries.cast.companionlibrary.cast.VideoCastManager;
+*/
 import com.ov3rk1ll.kinocast.BuildConfig;
 import com.ov3rk1ll.kinocast.R;
 import com.ov3rk1ll.kinocast.api.Parser;
@@ -84,7 +86,7 @@ public class DetailActivity extends AppCompatActivity implements ActionMenuView.
     private ViewModel item;
     private RelativeLayout  mAdView;
 
-    private VideoCastManager mVideoCastManager;
+    //private VideoCastManager mVideoCastManager;
 
     @SuppressWarnings("FieldCanBeLocal")
     private boolean SHOW_ADS = true;
@@ -105,12 +107,12 @@ public class DetailActivity extends AppCompatActivity implements ActionMenuView.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (BuildConfig.GMS_CHECK) BaseCastManager.checkGooglePlayServices(this);
-        mVideoCastManager = Utils.initializeCastManager(this);
+        //if (BuildConfig.GMS_CHECK) BaseCastManager.checkGooglePlayServices(this);
+        //mVideoCastManager = Utils.initializeCastManager(this);
 
         setContentView(R.layout.activity_detail);
 
-        mVideoCastManager.reconnectSessionIfPossible();
+        //mVideoCastManager.reconnectSessionIfPossible();
 
         // actionBar.setDisplayHomeAsUpEnabled(true);
 
@@ -139,6 +141,7 @@ public class DetailActivity extends AppCompatActivity implements ActionMenuView.
             }
         });
 
+        /*
         FlurryAgent.onStartSession(this);
         mAdView = (RelativeLayout)findViewById(R.id.adView);
         if (SHOW_ADS) {
@@ -196,7 +199,7 @@ public class DetailActivity extends AppCompatActivity implements ActionMenuView.
             findViewById(R.id.donateView).setVisibility(View.GONE);
             findViewById(R.id.hr2).setVisibility(View.GONE);
         }
-
+        */
         int screenWidthPx = getResources().getDisplayMetrics().widthPixels;
 
         ((TextView) findViewById(R.id.detail)).setText(item.getSummary());
@@ -335,7 +338,7 @@ public class DetailActivity extends AppCompatActivity implements ActionMenuView.
     @Override
     protected void onResume() {
         super.onResume();
-        mVideoCastManager.incrementUiCounter();
+        //mVideoCastManager.incrementUiCounter();
         //TODO Check if we are playing the current item
         //if(mAdView != null) mAdView.onResume();
 
@@ -345,7 +348,7 @@ public class DetailActivity extends AppCompatActivity implements ActionMenuView.
     @Override
     protected void onPause() {
         super.onPause();
-        mVideoCastManager.decrementUiCounter();
+        //mVideoCastManager.decrementUiCounter();
 
         //Update Bookmark to keep series info
         if (item.getType() == ViewModel.Type.SERIES) {
@@ -370,7 +373,7 @@ public class DetailActivity extends AppCompatActivity implements ActionMenuView.
         //menu = ((ActionMenuView) findViewById(R.id.bar_split)).getMenu();
         menu.clear();
         getMenuInflater().inflate(R.menu.detail, menu);
-        mVideoCastManager.addMediaRouterButton(menu, R.id.media_route_menu_item);
+        //mVideoCastManager.addMediaRouterButton(menu, R.id.media_route_menu_item);
         // Set visibility depending on detail data
         menu.findItem(R.id.action_imdb).setVisible(item.getImdbId() != null);
 
@@ -423,12 +426,12 @@ public class DetailActivity extends AppCompatActivity implements ActionMenuView.
         }
         return super.onOptionsItemSelected(item);
     }
-
+/*
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         return mVideoCastManager.onDispatchVolumeKeyEvent(event, 0.05) || super.dispatchKeyEvent(event);
     }
-
+*/
     private void setMirrorSpinner(Host mirrors[]) {
         if (mirrors != null && mirrors.length > 0) {
             Arrays.sort(mirrors, new WeightedHostComparator(Utils.getWeightedHostList(getApplicationContext())));
@@ -468,7 +471,7 @@ public class DetailActivity extends AppCompatActivity implements ActionMenuView.
             articleParams.put("Name", item.getTitle());
             articleParams.put("Type", item.getType() == ViewModel.Type.MOVIE ? "Movie" : "Series");
             articleParams.put("Id", item.getSlug());
-            FlurryAgent.logEvent("Content_View", articleParams);
+//            FlurryAgent.logEvent("Content_View", articleParams);
             item = Parser.getInstance().loadDetail(item);
             return true;
         }
@@ -617,13 +620,13 @@ public class DetailActivity extends AppCompatActivity implements ActionMenuView.
                 List<ResolveInfo> launchables = pm.queryIntentActivities(intent, 0);
                 List<AppAdapter.App> apps = new ArrayList<>();
                 Collections.sort(launchables, new ResolveInfo.DisplayNameComparator(pm));
-                if (mVideoCastManager.isConnected()) {
+                /*if (mVideoCastManager.isConnected()) {
                     apps.add(new AppAdapter.App(
                             getString(R.string.player_chromecast_list_entry),
                             getResources().getDrawable(R.drawable.ic_player_chromecast),
                             null
                     ));
-                }
+                }*/
                 apps.add(new AppAdapter.App(
                         getString(R.string.player_internal_list_entry),
                         getResources().getDrawable(R.drawable.ic_player),
@@ -651,6 +654,7 @@ public class DetailActivity extends AppCompatActivity implements ActionMenuView.
 
                         articleParams.put("Hoster", host.getName());
                         articleParams.put("Movie", item.getTitle());
+                        /*
                         if (app.getComponent() == null) {
                             startPlaybackOnChromecast(link);
                             articleParams.put("Player", "Chromecast");
@@ -659,7 +663,11 @@ public class DetailActivity extends AppCompatActivity implements ActionMenuView.
                             articleParams.put("Player", app.getComponent().toString());
                             startActivity(intent);
                         }
-                        FlurryAgent.logEvent("Played_Stream", articleParams);
+                        */
+                        intent.setComponent(app.getComponent());
+                        articleParams.put("Player", app.getComponent().toString());
+                        startActivity(intent);
+                        //FlurryAgent.logEvent("Played_Stream", articleParams);
                         dialog.dismiss();
                     }
                 });
@@ -677,7 +685,7 @@ public class DetailActivity extends AppCompatActivity implements ActionMenuView.
             return context;
         }
     }
-
+/*
     public void startPlaybackOnChromecast(String link) {
         MediaMetadata mediaMetadata;
         if (item.getType() == ViewModel.Type.SERIES) {
@@ -713,7 +721,7 @@ public class DetailActivity extends AppCompatActivity implements ActionMenuView.
 
         mVideoCastManager.startVideoCastControllerActivity(DetailActivity.this, mediaInfo, 0, true);
     }
-
+*/
     /*public void startCastControllerActivity(Context context, Bundle mediaWrapper, int position, boolean shouldStart) {
         Intent intent = new Intent(context, ColorfulVideoCastControllerActivity.class);
         intent.putExtra(VideoCastManager.EXTRA_MEDIA, mediaWrapper);

@@ -8,9 +8,11 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.SparseIntArray;
 
+/*
 import com.google.android.gms.cast.CastMediaControlIntent;
 import com.google.android.libraries.cast.companionlibrary.cast.CastConfiguration;
 import com.google.android.libraries.cast.companionlibrary.cast.VideoCastManager;
+*/
 import com.ov3rk1ll.kinocast.BuildConfig;
 
 import org.json.JSONException;
@@ -76,6 +78,7 @@ public class Utils {
         return sparseArray;
     }
 
+    /*
     public static VideoCastManager initializeCastManager(Context context) {
         CastConfiguration.Builder builder = new CastConfiguration.Builder(CastMediaControlIntent.DEFAULT_MEDIA_RECEIVER_APPLICATION_ID)
                 .enableAutoReconnect()
@@ -99,4 +102,5 @@ public class Utils {
 
         return VideoCastManager.initialize(context, builder.build());
     }
+    */
 }
